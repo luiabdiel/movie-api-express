@@ -21,6 +21,8 @@ export async function findMovieById(req: Request, res: Response) {
     if (!movie) {
       return res.status(404).json({ error: "O filme não existe"})
     }
+
+    return res.status(200).json(movie)
   } catch (err: any) {
     Logger.error(err.message)
   }
