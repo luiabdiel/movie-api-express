@@ -12,3 +12,16 @@ export async function createMovie(req: Request, res: Response) {
     Logger.error(err.message)
   }
 }
+
+export async function findMovieById(req: Request, res: Response) {
+  try {
+    const id = req.params.id
+    const movie = await MovieModel.findById(id)
+
+    if (!movie) {
+      return res.status(404).json({ error: "O filme não existe"})
+    }
+  } catch (err: any) {
+    Logger.error(err.message)
+  }
+}
