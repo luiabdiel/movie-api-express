@@ -10,6 +10,7 @@ export async function createMovie(req: Request, res: Response) {
     return res.status(201).json(movie)
   } catch(err: any) {
     Logger.error(err.message)
+    return res.status(500).json({error: "Tente novamente mais tarde!"})
   }
 }
 
@@ -25,6 +26,7 @@ export async function findMovieById(req: Request, res: Response) {
     return res.status(200).json(movie)
   } catch (err: any) {
     Logger.error(err.message)
+    return res.status(500).json({error: "Tente novamente mais tarde!"})
   }
 }
 
@@ -35,5 +37,24 @@ export async function getAllMovies(req: Request, res: Response) {
     return res.status(200).json(movies)
   } catch (err: any) {
     Logger.error(err.message)
+    return res.status(500).json({error: "Tente novamente mais tarde!"})
+  }
+}
+
+export async function deleteMovieById(req: Request, res: Response) {
+  try {
+    const id = req.params.id
+    const movie = await MovieModel.findById(id)
+
+    if (!movie) {
+      return res.status(404).json({ error: "O filme não existe!" })
+    }
+
+    await movie.deleteOne()
+
+    return res.status(200).json({ message: "O filme foi deletado com sucesso!" })
+  } catch (err: any) {
+    Logger.error(err.message)
+    return res.status(500).json({ error: "Tente novamente mais tarde!" })
   }
 }
